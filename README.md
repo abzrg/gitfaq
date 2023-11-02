@@ -37,3 +37,56 @@ $ git log
   squash (4) ...
   pick (5) ...
   ```
+
+## Change previous commit messages
+
+- amending
+  - `git commit --amend`
+- reword
+  - (`git rebase -i HEAD~<one before the commit you want to remove>`)
+  - then mark the commit you want to reword as `reword`.
+  - save and quit. in the new editor window change your commit messages.
+  - don't do this if you've already pushed your commits to remote, for others to use.
+
+
+## Add new changes to the last commit without editing the message
+
+```sh
+git add <changes>
+git commit --amend --no-edit
+```
+
+## Fixup commits
+
+first you have to incorporate the changes you wish you had previously in the old
+commit in a "fixup" commit and then interactively rebase it.
+
+```
+git add <changes>
+git commit --fixup=<old commit hash>
+git rebase -i --autosquash HEAD~<one before the old commit>
+# save and quit. done
+```
+
+`--autosquash` means fixup commits will be automatically squashed into the
+commits they reference ([ref]()).
+
+You can have this behaviour by default, which seems safe and sensible, by setting
+autosquash = true in your ~/.gitconfig.
+
+```gitconfig
+[rebase]
+	autosquash = true
+```
+
+I use --fixup so much that I have a helper alias in my ~/.gitconfig.
+
+```gitconfig
+[alias]
+	fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+```
+
+This lets me type git fixup and presents a list of my 50 most recent commits and
+allows me to search the list using fzf. Once a commit is selected, the SHA is
+passed to git commit `--fixup`
+([ref](https://jordanelver.co.uk/blog/2020/06/04/fixing-commits-with-git-commit-fixup-and-git-rebase-autosquash/)).
