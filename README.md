@@ -90,3 +90,35 @@ This lets me type git fixup and presents a list of my 50 most recent commits and
 allows me to search the list using fzf. Once a commit is selected, the SHA is
 passed to git commit `--fixup`
 ([ref](https://jordanelver.co.uk/blog/2020/06/04/fixing-commits-with-git-commit-fixup-and-git-rebase-autosquash/)).
+
+
+## Unstage with `restore` and `rm --cached`
+
+- unstage before the first commit (No `HEAD`)
+
+  ```sh
+  git rm --cached <file>
+  ```
+
+- unstage after the first commit
+
+  - undo/unstage changes to be committed
+
+  ```sh
+  git restore --staged <file>
+
+  # only equivalent with the following if the file is newly added (previously
+  # untracked)
+  git reset --cached <file>
+  ```
+  this will replace the content of index with `HEAD`. that means newly added file
+  will be untracked. you can pass (unless you pass `--source=<hash>` to bring
+  content of a certain commit)
+
+  - undo changes not staged for commit (discard changes in the working tree)
+
+  ```sh
+  git restore <file>
+  ```
+  this brings the content of index into working tree. note that you'll lose
+  the content of working tree for ever for that particular file.
