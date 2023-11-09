@@ -122,3 +122,24 @@ passed to git commit `--fixup`
   ```
   this brings the content of index into working tree. note that you'll lose
   the content of working tree for ever for that particular file.
+
+
+## Find a commit that introduced a string
+
+```sh
+# quote search string if it contains white space
+git log -S needle --source --all
+git log -S 'hello world' --source --all
+git log -S "systray" --source --all --reverse
+
+# Search with regex
+git log -G "^(\s)*function foo[(][)](\s)*{$" --source --all
+```
+
+The `--all` parameter means to start from every branch and `--source` means to show
+which of those branches led to finding that commit. It's often useful to add `-p`
+to show the patches that each of those commits would introduce as well.
+[ref](https://stackoverflow.com/a/5816177/13041067)
+
+`--reverse` is also helpful since you want the first commit that made the change.
+[ref](https://stackoverflow.com/a/31621921/13041067)
