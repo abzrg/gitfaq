@@ -143,3 +143,26 @@ to show the patches that each of those commits would introduce as well.
 
 `--reverse` is also helpful since you want the first commit that made the change.
 [ref](https://stackoverflow.com/a/31621921/13041067)
+
+
+## Change the author of commits
+
+to change the author of the most recent commit
+
+```sh
+git commit --amend --author "<New Author Name> <email@address.com>"
+```
+
+to change the aurhor of a commit other than the most recent commit
+
+```sh
+git rebase -i --rebase-merges <some HEAD before all of your bad commits>
+
+# mark desired commit as "edit"/"e"; save and exit
+
+git commit --amend --author "<New Author Name> <email@address.com>" --no-edit
+
+git rebase --continue
+```
+
+[ref](https://stackoverflow.com/a/74856838/13041067)
