@@ -166,3 +166,17 @@ git rebase --continue
 ```
 
 [ref](https://stackoverflow.com/a/74856838/13041067)
+
+## Git internal resources
+
+Docs:
+
+- [Git book -- Ch.10. Git Internals](https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain)
+
+Videos:
+
+- [Advanced Git: Graphs, Hashes, and Compression, Oh My!](https://www.youtube.com/watch?v=ig5E8CcdM9g)
+- [OSCON 2016: Dissecting Git's Guts - Git Internals - Emily Xie](https://www.youtube.com/watch?v=YUCwr1Y6bFI)
+- [Git From the Bits Up](https://www.youtube.com/watch?v=MYP56QJpDr4)
+- [Git Internals - How Git Works - Fear Not The SHA!](https://www.youtube.com/watch?v=P6jD966jzlk)
+- [Andrey Syschikov - A journey into Git internals with Python](https://www.youtube.com/watch?v=bZ4WbPnNPCs)
