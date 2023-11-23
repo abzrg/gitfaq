@@ -1,5 +1,11 @@
 # Git FAQ
 
+## GitHub Cheat Sheet
+
+[GitHub Cheat Sheet](https://github.com/tiimgreen/github-cheat-sheet)
+
+esp. usefull information about hidden features of GitHub
+
 ## Squash bunch of commits
 
 "Melting" some commits into one.
