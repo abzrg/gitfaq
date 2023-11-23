@@ -76,14 +76,14 @@ autosquash = true in your ~/.gitconfig.
 
 ```gitconfig
 [rebase]
-	autosquash = true
+        autosquash = true
 ```
 
 I use --fixup so much that I have a helper alias in my ~/.gitconfig.
 
 ```gitconfig
 [alias]
-	fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
+        fixup = "!git log -n 50 --pretty=format:'%h %s' --no-merges | fzf | cut -c -7 | xargs -o git commit --fixup"
 ```
 
 This lets me type git fixup and presents a list of my 50 most recent commits and
@@ -180,3 +180,72 @@ Videos:
 - [Git From the Bits Up](https://www.youtube.com/watch?v=MYP56QJpDr4)
 - [Git Internals - How Git Works - Fear Not The SHA!](https://www.youtube.com/watch?v=P6jD966jzlk)
 - [Andrey Syschikov - A journey into Git internals with Python](https://www.youtube.com/watch?v=bZ4WbPnNPCs)
+
+## Git add and restore (--patch)
+
+Docs:
+
+- [The Art of Manually Editing Hunks](https://kennyballou.com/blog/2015/10/art-manually-edit-hunks/index.html)
+
+Common commands:
+
+```sh
+git add --patch                                                        # from: index, to: working-directory
+git restore --patch                                                    # from: index, to: working-directory
+git restore --patch --staged                                           # from: HEAD,  to: index
+git restore --patch --staged [-s <tree>, --source=<tree>]              # from: tree,  to: index
+git restore --patch --staged --worktree [-s <tree>, --source=<tree>]   # from: tree,  to: index and working-directory
+```
+
+Hunk identifiers:
+
+```
+@@ -line number[,context] +line number[,context] @@
+```
+
+- `-`: source/from file
+- `+`: new/to file
+- `context` is the number of lines in the hunk for each file
+  - can be different sometimes
+
+diff syntax:
+
+- `+`: denotes a line that will be added to the first file
+- `-`: deontes a line that will be removed from the first file
+- ` `: not changed
+- Note that to diff, updating a line is the same as removing the original line
+  and adding a new line (with the changes).
+
+usefull operations:
+
+- `?`: print help
+- `q`: quit; do not stage this hunk or any of the remaining ones
+
+![Comparison of git-add, and git-restore [ref](https://stackoverflow.com/a/77143766/13041067)](./img/git-add-restore.png)
+
+Note for editing patches in:
+
+- `git add`: adds changes in working-tree to index
+  - the `+` lines will be added to the index after the command.
+    - thus removing them means we will not add them (they are still in working tree)
+  - the `-` lines will be removed from index after the command.
+    - thus replacing them with ` ` (i.e. making the same as index), they will stay
+      in index, (although removed from working tree)
+- `git restore`: restores changes in working tree from index
+  - the `+` lines will be restored from index,
+    - thus replacing them with ` ` means they are the same as index, and no need
+      to revert the change in working tree
+  - the `-` lines will be restored from index,
+    - thus deleting them means the index is the same as working tree and no need
+    to revert the change in working tree.
+
+- `git restore --staged`: just like above but restores changes in index from HEAD
+
+- `git restore --staged --worktree`: Not sure how to correctly edit the patch
+
+Tip: ([ref](https://www.youtube.com/watch?v=UJ5fpaeZWsI):): A
+good companion to "`git add -p`" is "`git stash --keep-index`", so you can
+preserve your index but stash the remaining changes, so you can run your tests
+(for example), just before committing. After doing your partial commit, just "`git
+stash pop`", and repeat.
+  - note that it is also easy to lose your changes with git-stash
