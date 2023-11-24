@@ -1,5 +1,7 @@
 # Git FAQ
 
+
+
 ## GitHub Cheat Sheet
 
 [GitHub Cheat Sheet](https://github.com/tiimgreen/github-cheat-sheet)
@@ -255,3 +257,49 @@ preserve your index but stash the remaining changes, so you can run your tests
 (for example), just before committing. After doing your partial commit, just "`git
 stash pop`", and repeat.
   - note that it is also easy to lose your changes with git-stash
+
+## git diff
+
+1. `git diff HEAD` - Changes in the working tree since your last commit; what
+   you would be committing if you run `git commit -a`
+1. `git diff --cached/--staged` - Changes between the index and your last commit;
+   what you would be committing if you run `git commit` without `-a` option.
+1. `git diff` - Changes in the working tree not yet staged for the next commit.
+1. `git diff AUTO_MERGE` - Changes in the working tree you've made to resolve
+   textual conflicts so far.
+
+It looks like this:
+
+```
+     Working
+    Directory  <----+--------+------+
+        |           |        |      |
+        |           |        |      |
+        V           |        |      |
+    "git add"       |        |      |
+        |         diff       |      |
+        |           |        |      |
+        V           |        |      |
+     Index     <----+    diff HEAD  |
+        |           |        |      |
+        |           |        |      |
+        V           |        |      |
+  "git commit"      |        |      |
+        |     diff --cached  |      |
+        |     diff --staged  |      |
+        V           |        |      |
+      HEAD     <----+--------+      |
+        |                           |
+        |                        diff HEAD^
+        V                           |
+previous "git commit"               |
+        |                           |
+        |                           |
+        V                           |
+      HEAD^    <--------------------+
+```
+
+refs:
+  - [sof](https://stackoverflow.com/a/3686507/13041067)
+  - [man git-diff examples](https://git-scm.com/docs/git-diff)
+    - there are really nice examples there
