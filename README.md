@@ -248,6 +248,12 @@ Note for editing patches in:
     to revert the change in working tree.
 
 - `git restore --staged`: just like above but restores changes in index from HEAD
+  - lines with `+` will be removed (restored)
+    - if you want to keep a change in index, convert `+` to ` `. this is to show
+      git as if there is no difference between index and HEAD (context)
+  - lines with `-` will be removed (restored)
+    - if you want to keep a deletion remove that line. as if there hasn't been a
+      deletion in index.
 
 - `git restore --staged --worktree`: Not sure how to correctly edit the patch
 
